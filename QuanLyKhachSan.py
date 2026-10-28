@@ -155,7 +155,7 @@ class QuanLyHuman:
 
         while ngay_sinh == "":
             ngay_sinh = input(
-                "Ngày sinh không được để trống, nhập lại: "
+                "Ngày sinh không được để trống, nhập lại: " #ktr chu
             ).strip()
 
 
@@ -404,6 +404,30 @@ class QuanLyHuman:
         for key, value in self.ds_human.items():
             print(f"Ma Doi Tuong: {key} : {value} \n")
 
+#===========IN THEO MA===========
+    def inTHeoMa(self,maDT):
+        if not self.ds_human:
+            print("Danh sach rong!")
+            return
+        for key, value in self.ds_human.items():
+            if maDT == key:
+                print(f"Ma Doi Tuong: {key} : {value} \n")
+
+    def timTheoDieuKien_MaDoiTuong(self):
+        if not self.ds_human:
+            print("Danh sach rong!")
+            return
+        while True:
+            key = input("Nhap ma doi tuong can tim: ").strip()
+            if key in self.ds_human:
+                self.inTHeoMa(key)
+            else:
+                print("Khong tim thay doi tuong hop le!")
+            key = input("1 - nhap lai, 0 - thoat: ").strip()
+            if key != "1":
+                break
+
+
 # ========== CHẠY CHƯƠNG TRÌNH ==========
 
 if __name__ == "__main__":
@@ -412,5 +436,6 @@ if __name__ == "__main__":
     ql = QuanLyHuman()
     ql.them()
     ql.inDanhSach()
+    ql.timTheoDieuKien_MaDoiTuong()
     ql.xoa()
     ql.inDanhSach()

@@ -1,12 +1,13 @@
 # ========== REGISTER ==========
 
-ten_tk = input("Enter your nick name: ")
-mat_khau_tk = input("Enter your password: ")
-
+def register():
+    ten_tk = input("DANG KY! \nEnter your nick name: ")
+    mat_khau_tk = input("Enter your password: ")
+    return  ten_tk, mat_khau_tk
 
 # ========== LOGIN ==========
 
-def login():
+def login(ten_tk, mat_khau_tk):
     so_lan_thu = 0
 
     print("DANG NHAP!")
@@ -64,6 +65,10 @@ class LeTan(Human):
         self.chuc_vu = chuc_vu
         self.ten_dang_nhap = ten_dang_nhap
 
+#===========dung de in value===========
+    def __str__(self):
+        return f"Ho & ten: {self.ho_ten} - Ngay sinh: {self.ngay_sinh} - Gioi tinh:  {self.gioi_tinh} - So dien thoai: {self.so_dien_thoai} - Ca lam: {self.ca_lam} - Luong(k/h): {self.luong} - Chuc vu: {self.chuc_vu} - Ten dang nhap: {self.ten_dang_nhap}"
+
 
 # ========== CLASS KẾ THỪA - KHÁCH HÀNG ==========
 
@@ -93,6 +98,10 @@ class KhachHang(Human):
         self.so_cccd = so_cccd
         self.quoc_tich = quoc_tich
 
+    def __str__(self):
+        return f"Ho & ten: {self.ho_ten} - Ngay sinh: {self.ngay_sinh} - Gioi tinh: {self.gioi_tinh} - So dien thoai: {self.so_dien_thoai} - Ma khach hang: {self.ma_khach_hang} - Dia chi: {self.dia_chi} - Email: {self.email} - So CCCD: {self.so_cccd} - Quoc tich: {self.quoc_tich}"
+
+
 
 # ========== CLASS QUẢN LÝ KHÁCH SẠN ==========
 
@@ -112,7 +121,7 @@ class QuanLyHuman:
         # ========== CHỌN LOẠI ĐỐI TƯỢNG ==========
 
         loai = input(
-            "Nhập 1 - Lễ tân, 2 - Khách hàng: "
+            "Chon doi tuong muon them \n1 - Lễ tân, 2 - Khách hàng: "
         ).strip()
 
         while loai != "1" and loai != "2":
@@ -216,7 +225,7 @@ class QuanLyHuman:
 
             # Lương
             luong = input(
-                "Lương: "
+                "Lương(k/h): "
             ).strip()
 
             while luong == "" or not luong.replace(".", "", 1).isdigit():
@@ -369,9 +378,39 @@ class QuanLyHuman:
 
 
         print("Thêm thành công!")
+# ============XOA DOI TUONG THEO MA==============
+    def xoa(self):
+        if not self.ds_human:
+            print("Danh sach rong!")
+            return
+        while True:
+            key = input("Nhap ma doi tuong can xoa: ").strip()
+            while key == "":
+                key = input("Khong the bo trong! vui long nhap lai: ").strip()
+            if key in self.ds_human:
+                self.ds_human.pop(key)
+                print(f"Da xoa thanh cong doi tuong co ma la {key}!")
+            else:
+                print("Khong tim thay doi tuong hop le!")
+            chose = input("1 - nhap lai, 0 - thoat: ").strip()
+            if chose != "1":
+                break
 
+# =================IN FULL DS================
+    def inDanhSach(self):
+        if not self.ds_human:
+            print("Danh sach rong!")
+            return
+        for key, value in self.ds_human.items():
+            print(f"Ma Doi Tuong: {key} : {value} \n")
 
 # ========== CHẠY CHƯƠNG TRÌNH ==========
 
 if __name__ == "__main__":
-    login()
+    a,b = register()
+    login(a,b)
+    ql = QuanLyHuman()
+    ql.them()
+    ql.inDanhSach()
+    ql.xoa()
+    ql.inDanhSach()

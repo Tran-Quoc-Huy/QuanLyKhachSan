@@ -1,3 +1,5 @@
+
+
 # ========== REGISTER ==========
 
 def register():
@@ -426,7 +428,92 @@ class QuanLyHuman:
             key = input("1 - nhap lai, 0 - thoat: ").strip()
             if key != "1":
                 break
+# ============ SUA DOI TUONG THEO MA ==============
 
+def sua(self):
+    if not self.ds_human:
+        print("Danh sach rong!")
+        return
+
+    ma = input("Nhap ma doi tuong can sua: ").strip()
+
+    while ma == "":
+        ma = input("Khong duoc de trong, nhap lai: ").strip()
+
+    if ma not in self.ds_human:
+        print("Khong tim thay doi tuong!")
+        return
+
+    doi_tuong = self.ds_human[ma]
+
+    print("Thong tin hien tai:")
+    print(doi_tuong)
+
+    # ================= LE TAN =================
+
+    if isinstance(doi_tuong, LeTan):
+
+        doi_tuong.ho_ten = input("Ho ten moi: ").strip()
+        doi_tuong.ngay_sinh = input("Ngay sinh moi: ").strip()
+        doi_tuong.gioi_tinh = input("Gioi tinh moi: ").strip()
+        doi_tuong.so_dien_thoai = input("So dien thoai moi: ").strip()
+        doi_tuong.ca_lam = input("Ca lam moi: ").strip()
+
+        luong = input("Luong moi: ").strip()
+        while not luong.replace(".", "", 1).isdigit():
+            luong = input("Luong phai la so, nhap lai: ").strip()
+
+        doi_tuong.luong = float(luong)
+
+        doi_tuong.chuc_vu = input("Chuc vu moi: ").strip()
+        doi_tuong.ten_dang_nhap = input("Ten dang nhap moi: ").strip()
+
+    # ================= KHACH HANG =================
+
+    elif isinstance(doi_tuong, KhachHang):
+
+        doi_tuong.ho_ten = input("Ho ten moi: ").strip()
+        doi_tuong.ngay_sinh = input("Ngay sinh moi: ").strip()
+        doi_tuong.gioi_tinh = input("Gioi tinh moi: ").strip()
+        doi_tuong.so_dien_thoai = input("So dien thoai moi: ").strip()
+        doi_tuong.dia_chi = input("Dia chi moi: ").strip()
+        doi_tuong.email = input("Email moi: ").strip()
+
+        so_cccd = input("CCCD moi: ").strip()
+        while not so_cccd.isdigit():
+            so_cccd = input("CCCD chi duoc nhap so, nhap lai: ").strip()
+
+        doi_tuong.so_cccd = so_cccd
+        doi_tuong.quoc_tich = input("Quoc tich moi: ").strip()
+
+    print("Cap nhat thanh cong!")
+
+
+
+# ============ THONG KE ==============
+
+def thongKe(self):
+    if not self.ds_human:
+        print("Danh sach rong!")
+        return
+
+    so_le_tan = 0
+    so_khach_hang = 0
+
+    for doi_tuong in self.ds_human.values():
+
+        if isinstance(doi_tuong, LeTan):
+            so_le_tan += 1
+
+        elif isinstance(doi_tuong, KhachHang):
+            so_khach_hang += 1
+
+    tong = so_le_tan + so_khach_hang
+
+    print("\n===== THONG KE =====")
+    print(f"Tong so doi tuong : {tong}")
+    print(f"So le tan        : {so_le_tan}")
+    print(f"So khach hang    : {so_khach_hang}")
 
 # ========== CHẠY CHƯƠNG TRÌNH ==========
 

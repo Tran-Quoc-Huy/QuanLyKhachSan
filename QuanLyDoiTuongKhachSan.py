@@ -1,34 +1,5 @@
 
 
-# ========== REGISTER ==========
-
-def register():
-    ten_tk = input("DANG KY! \nEnter your nick name: ")
-    mat_khau_tk = input("Enter your password: ")
-    return  ten_tk, mat_khau_tk
-
-# ========== LOGIN ==========
-
-def login(ten_tk, mat_khau_tk):
-    so_lan_thu = 0
-
-    print("DANG NHAP!")
-
-    while so_lan_thu < 3:
-        nick_name = input("Enter your nick name: ")
-        mat_khau = input("Enter your password: ")
-
-        if nick_name == ten_tk and mat_khau == mat_khau_tk:
-            print("Dang nhap thanh cong")
-            return True
-        else:
-            so_lan_thu += 1
-            print(f"Dang nhap that bai (so lan thu con {3 - so_lan_thu})")
-
-    print("Dang nhap that bai!")
-    return False
-
-
 # ========== CLASS CƠ SỞ ==========
 
 class Human:
@@ -514,16 +485,3 @@ def thongKe(self):
     print(f"Tong so doi tuong : {tong}")
     print(f"So le tan        : {so_le_tan}")
     print(f"So khach hang    : {so_khach_hang}")
-
-# ========== CHẠY CHƯƠNG TRÌNH ==========
-
-if __name__ == "__main__":
-    a,b = register()
-    login(a,b)
-    ql = QuanLyHuman()
-    ql.them()
-    ql.inDanhSach()
-    ql.timTheoDieuKien_MaDoiTuong()
-    ql.xoa()
-    ql.inDanhSach()
-    print("abc")

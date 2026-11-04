@@ -439,3 +439,4 @@ if __name__ == "__main__":
     ql.timTheoDieuKien_MaDoiTuong()
     ql.xoa()
     ql.inDanhSach()
+    print("abc")

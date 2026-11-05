@@ -1,6 +1,7 @@
 from QuanLyDoiTuongKhachSan import *
 from QuanLyThietBiKhachSan import *
 from QuanLyTaiKhoanADMinKhachSan import *
+from QuanLyPhongKhachSan import *
 
 def menu():
     ql_human = QuanLyHuman()
@@ -11,8 +12,9 @@ def menu():
         print("\n===== QUAN LY KHACH SAN =====")
         print("1. Quan ly nguoi")
         print("2. Quan ly thiet bi")
-        print("3. Them Tai Khoan ADMin")
-        print("4. Doi Tai Khoan ADMin")
+        print("3. Quan ly phong")
+        print("4. Them Tai Khoan ADMin")
+        print("5. Doi Tai Khoan ADMin")
         print("0. Thoat")
 
         chon = input("Nhap lua chon: ")
@@ -89,10 +91,62 @@ def menu():
                 elif c == "0":
                     break
 
+
         elif chon == "3":
-            register()
+
+            while True:
+
+                print("\n===== QUAN LY PHONG =====")
+
+                print("1. Them phong")
+
+                print("2. Dat phong")
+
+                print("3. In phieu dat phong")
+
+                print("0. Quay lai")
+
+                chose = input("Nhap lua chon: ")
+
+                if chose == "1":
+
+                    PhongKhachSan.themPhong()
+
+
+                elif chose == "2":
+
+                    tenKhachHang = input("Nhap ten khach hang: ").strip()
+
+                    while tenKhachHang == "" or tenKhachHang.isdigit():
+                        if tenKhachHang == "":
+                            print("Khong the bo trong!")
+                        else:
+                            print("Ten khach hang khong the chi gom so!")
+
+                        tenKhachHang = input("Nhap lai ten khach hang: ").strip()
+
+                    phieu = PhieuDatPhong(tenKhachHang, 0)
+                    phieu.datPhong()
+
+
+                elif chose == "3":
+
+                    PhieuDatPhong.inToanBoPhieuDatPhong()
+
+
+                elif chose == "0":
+
+                    break
+
+
+                else:
+
+                    print("Lua chon khong hop le!")
 
         elif chon == "4":
+            register()
+
+        elif chon == "5":
             login()
 
         elif chon == "0":

@@ -26,7 +26,7 @@ def login():
         mat_khau = input("Enter your password: ")
 
         if nick_name in DSTaiKhoan and DSTaiKhoan[nick_name] == mat_khau:
-            print(f"Dang nhap thanh cong! ten tai khoan cua ban la: {nick_name} ")
+            print(f"Dang nhap thanh cong!\nXin chao {nick_name}!")
             return True
 
         else:

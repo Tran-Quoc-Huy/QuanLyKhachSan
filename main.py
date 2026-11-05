@@ -90,10 +90,7 @@ def menu():
                     break
 
         elif chon == "3":
-            if KTraMK():
-                register()
-            else:
-                print("Them ADMin that bai!")
+            register()
 
         elif chon == "4":
             login()
@@ -104,12 +101,11 @@ def menu():
 
 
 if __name__ == "__main__":
-    if KTraMK():
 
-        register()
+    register()
 
-        if login():
-            menu()
+    if login():
+        menu()
 
     else:
         print("Khoi dong chuong trinh that bai!")

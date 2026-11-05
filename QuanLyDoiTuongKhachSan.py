@@ -76,13 +76,6 @@ class KhachHang(Human):
 
 
 
-# ========== CLASS QUẢN LÝ KHÁCH SẠN ==========
-
-class QuanLyKhachSan:
-    def __init__(self):
-        self.ds_human = {}
-
-
 # ========== CLASS QUẢN LÝ HUMAN ==========
 
 class QuanLyHuman:
@@ -128,7 +121,7 @@ class QuanLyHuman:
 
         while ngay_sinh == "":
             ngay_sinh = input(
-                "Ngày sinh không được để trống, nhập lại: " #ktr chu
+                "Ngày sinh không được để trống, nhập lại: "
             ).strip()
 
 
@@ -179,10 +172,13 @@ class QuanLyHuman:
                 "Mã lễ tân: "
             ).strip()
 
-            while ma_le_tan == "":
-                ma_le_tan = input(
-                    "Mã lễ tân không được để trống, nhập lại: "
-                ).strip()
+            while ma_le_tan == "" or ma_le_tan in self.ds_human:
+                if ma_le_tan == "":
+                    ma_le_tan = input(
+                        "Mã lễ tân không được để trống, nhập lại: "
+                    ).strip()
+                else :
+                    ma_le_tan = input("Ma da ton tai! vui long nhap lai: ").strip()
 
 
             # Ca làm
@@ -201,7 +197,7 @@ class QuanLyHuman:
                 "Lương(k/h): "
             ).strip()
 
-            while luong == "" or not luong.replace(".", "", 1).isdigit():
+            while luong == "" or not luong.isdigit():
                 if luong == "":
                     luong = input(
                         "Lương không được để trống, nhập lại: "
@@ -304,15 +300,17 @@ class QuanLyHuman:
                 "Số CCCD: "
             ).strip()
 
-            while so_cccd == "" or not so_cccd.isdigit():
+            while so_cccd == "" or not so_cccd.isdigit() or so_cccd in self.ds_human:
                 if so_cccd == "":
                     so_cccd = input(
                         "CCCD không được để trống, nhập lại: "
                     ).strip()
-                else:
+                elif so_cccd.isdigit():
                     so_cccd = input(
                         "CCCD chỉ được nhập số, nhập lại: "
                     ).strip()
+                else:
+                    so_cccd = input("So cccd da ton tai! vui long nhap lai: ").strip()
 
 
             # Quốc tịch

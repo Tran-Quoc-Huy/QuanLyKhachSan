@@ -36,7 +36,10 @@ class QuanLyThietBi:
         so_luong = input("Nhập số lượng: ").strip()
 
         while not so_luong.isdigit() or int(so_luong) <= 0:
-            so_luong = input("Số lượng phải lớn hơn 0, nhập lại: ").strip()
+            if so_luong.isdigit():
+                so_luong = input("Nhâp số! vui lòng nhập lại: ").strip()
+            else:
+                so_luong = input("Số lương phải lớn hơn 0! vui long nhap lại: ")
 
         tinh_trang = input("Nhập tình trạng thiết bị: ").strip()
 
@@ -55,7 +58,7 @@ class QuanLyThietBi:
             return
 
         for ma, tb in self.ds_thiet_bi.items():
-            print(f"Mã thiết bị: {ma} : {tb}\n")
+            print(f"{tb}\n")
 
     # ========== TÌM THIẾT BỊ ==========
     def timTheoMa(self):

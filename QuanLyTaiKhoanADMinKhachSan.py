@@ -1,21 +1,6 @@
 # ==========KHOI TAO TU DIEN LUU THONG TIN TAI KHOAN========
 DSTaiKhoan = {}
 
-# ==========MK KHOI DONG MA NGUON==========
-MKKhoiDong = input("Nhap Mat Khau Khoi Dong Cua Chuong Trinh!: ").strip()
-
-# =========Ham ktr mk ma nguon============
-def KTraMK():
-    So_lan_ktr = 0
-    while So_lan_ktr < 3:
-        mk = input("Nhap MKhau Chuong Trinh!: ").strip()
-        if mk == MKKhoiDong:
-            return True
-        else:
-            So_lan_ktr += 1
-            if So_lan_ktr != 3:
-                print(f"Sai thong tin! So lan thu con lai {3 - So_lan_ktr}")
-    return False
 # ========== REGISTER ==========
 
 def register():

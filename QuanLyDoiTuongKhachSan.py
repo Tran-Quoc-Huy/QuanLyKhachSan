@@ -1,6 +1,23 @@
 
 
 # ========== CLASS CƠ SỞ ==========
+DSHuman = {}
+
+
+def kiemTraCCCDTonTai(cccd):
+    for doi_tuong in DSHuman.values():
+        if isinstance(doi_tuong, KhachHang):
+            if doi_tuong.so_cccd == cccd:
+                return True
+    return False
+
+def timKhachHangTheoCCCD(cccd):
+    for doi_tuong in DSHuman.values():
+        if isinstance(doi_tuong, KhachHang):
+            if doi_tuong.so_cccd == cccd:
+                return doi_tuong
+
+    return None
 
 class Human:
     def __init__(self, ho_ten, ngay_sinh, gioi_tinh, so_dien_thoai):
@@ -80,7 +97,7 @@ class KhachHang(Human):
 
 class QuanLyHuman:
     def __init__(self):
-        self.ds_human = {}
+        pass
 
     def them(self):
 
@@ -172,7 +189,7 @@ class QuanLyHuman:
                 "Mã lễ tân: "
             ).strip()
 
-            while ma_le_tan == "" or ma_le_tan in self.ds_human:
+            while ma_le_tan == "" or ma_le_tan in DSHuman:
                 if ma_le_tan == "":
                     ma_le_tan = input(
                         "Mã lễ tân không được để trống, nhập lại: "
@@ -253,7 +270,7 @@ class QuanLyHuman:
             )
 
             # Lưu vào dictionary
-            self.ds_human[ma_le_tan] = le_tan
+            DSHuman[ma_le_tan] = le_tan
 
 
         # ==================================================
@@ -267,10 +284,13 @@ class QuanLyHuman:
                 "Mã khách hàng: "
             ).strip()
 
-            while ma_khach_hang == "":
-                ma_khach_hang = input(
-                    "Mã khách hàng không được để trống, nhập lại: "
-                ).strip()
+            while ma_khach_hang == "" or ma_khach_hang in DSHuman:
+                if (ma_khach_hang == ""):
+                    ma_khach_hang = input(
+                        "Mã khách hàng không được để trống, nhập lại: "
+                    ).strip()
+                else:
+                    ma_khach_hang = input("Ma da ton tai! nhap lai: ").strip()
 
 
             # Địa chỉ
@@ -295,12 +315,13 @@ class QuanLyHuman:
                 ).strip()
 
 
+
             # CCCD
             so_cccd = input(
                 "Số CCCD: "
             ).strip()
 
-            while so_cccd == "" or not so_cccd.isdigit() or so_cccd in self.ds_human:
+            while so_cccd == "" or not so_cccd.isdigit() or kiemTraCCCDTonTai(so_cccd):
                 if so_cccd == "":
                     so_cccd = input(
                         "CCCD không được để trống, nhập lại: "
@@ -345,21 +366,31 @@ class QuanLyHuman:
             )
 
             # Lưu vào dictionary
-            self.ds_human[ma_khach_hang] = khach_hang
+            DSHuman[ma_khach_hang] = khach_hang
 
 
         print("Thêm thành công!")
+
+        #ktr xem khach hang a da ton tai trong ds hay chua
+        def timKhachHangTheoCCCD(cccd):
+            for doi_tuong in DSHuman.values():
+                if isinstance(doi_tuong, KhachHang):
+                    if doi_tuong.so_cccd == cccd:
+                        return doi_tuong
+
+            return None
+
 # ============XOA DOI TUONG THEO MA==============
     def xoa(self):
-        if not self.ds_human:
+        if not DSHuman:
             print("Danh sach rong!")
             return
         while True:
             key = input("Nhap ma doi tuong can xoa: ").strip()
             while key == "":
                 key = input("Khong the bo trong! vui long nhap lai: ").strip()
-            if key in self.ds_human:
-                self.ds_human.pop(key)
+            if key in DSHuman:
+                DSHuman.pop(key)
                 print(f"Da xoa thanh cong doi tuong co ma la {key}!")
             else:
                 print("Khong tim thay doi tuong hop le!")
@@ -369,28 +400,28 @@ class QuanLyHuman:
 
 # =================IN FULL DS================
     def inDanhSach(self):
-        if not self.ds_human:
+        if not DSHuman:
             print("Danh sach rong!")
             return
-        for key, value in self.ds_human.items():
+        for key, value in DSHuman.items():
             print(f"Ma Doi Tuong: {key} : {value} \n")
 
 #===========IN THEO MA===========
     def inTHeoMa(self,maDT):
-        if not self.ds_human:
+        if not DSHuman:
             print("Danh sach rong!")
             return
-        for key, value in self.ds_human.items():
+        for key, value in DSHuman.items():
             if maDT == key:
                 print(f"Ma Doi Tuong: {key} : {value} \n")
 
     def timTheoDieuKien_MaDoiTuong(self):
-        if not self.ds_human:
+        if not DSHuman:
             print("Danh sach rong!")
             return
         while True:
             key = input("Nhap ma doi tuong can tim: ").strip()
-            if key in self.ds_human:
+            if key in DSHuman:
                 self.inTHeoMa(key)
             else:
                 print("Khong tim thay doi tuong hop le!")
@@ -400,7 +431,7 @@ class QuanLyHuman:
 # ============ SUA DOI TUONG THEO MA ==============
 
     def sua(self):
-        if not self.ds_human:
+        if not DSHuman:
             print("Danh sach rong!")
             return
 
@@ -409,11 +440,11 @@ class QuanLyHuman:
         while ma == "":
             ma = input("Khong duoc de trong, nhap lai: ").strip()
 
-        if ma not in self.ds_human:
+        if ma not in DSHuman:
             print("Khong tim thay doi tuong!")
             return
 
-        doi_tuong = self.ds_human[ma]
+        doi_tuong = DSHuman[ma]
 
         print("Thong tin hien tai:")
         print(doi_tuong)
@@ -459,17 +490,18 @@ class QuanLyHuman:
 
 
 
+
     # ============ THONG KE ==============
 
     def thongKe(self):
-        if not self.ds_human:
+        if not DSHuman:
             print("Danh sach rong!")
             return
 
         so_le_tan = 0
         so_khach_hang = 0
 
-        for doi_tuong in self.ds_human.values():
+        for doi_tuong in DSHuman.values():
 
             if isinstance(doi_tuong, LeTan):
                 so_le_tan += 1

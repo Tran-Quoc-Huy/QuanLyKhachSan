@@ -1,5 +1,5 @@
 
-
+# SET THONG TIN DANG NHAP MAT DINH
 # ========== CLASS CƠ SỞ ==========
 DSHuman = {}
 
@@ -29,7 +29,7 @@ class Human:
 
 # ========== CLASS KẾ THỪA - LỄ TÂN ==========
 
-class LeTan(Human):
+class QuanLyKhachSan(Human):
     def __init__(
         self,
         ho_ten,
@@ -39,8 +39,7 @@ class LeTan(Human):
         ma_le_tan,
         ca_lam,
         luong,
-        chuc_vu,
-        ten_dang_nhap
+        chuc_vu
     ):
         super().__init__(
             ho_ten,
@@ -53,11 +52,10 @@ class LeTan(Human):
         self.ca_lam = ca_lam
         self.luong = luong
         self.chuc_vu = chuc_vu
-        self.ten_dang_nhap = ten_dang_nhap
 
 #===========dung de in value===========
     def __str__(self):
-        return f"Ho & ten: {self.ho_ten} - Ngay sinh: {self.ngay_sinh} - Gioi tinh:  {self.gioi_tinh} - So dien thoai: {self.so_dien_thoai} - Ca lam: {self.ca_lam} - Luong(k/h): {self.luong} - Chuc vu: {self.chuc_vu} - Ten dang nhap: {self.ten_dang_nhap}"
+        return f"Ho & ten: {self.ho_ten} - Ngay sinh: {self.ngay_sinh} - Gioi tinh:  {self.gioi_tinh} - So dien thoai: {self.so_dien_thoai} - Ca lam: {self.ca_lam} - Luong(k/h): {self.luong} - Chuc vu: {self.chuc_vu} "
 
 
 # ========== CLASS KẾ THỪA - KHÁCH HÀNG ==========
@@ -185,17 +183,17 @@ class QuanLyHuman:
         if loai == "1":
 
             # Mã lễ tân
-            ma_le_tan = input(
+            ma_quan_ly = input(
                 "Mã lễ tân: "
             ).strip()
 
-            while ma_le_tan == "" or ma_le_tan in DSHuman:
-                if ma_le_tan == "":
-                    ma_le_tan = input(
+            while ma_quan_ly == "" or ma_quan_ly in DSHuman:
+                if ma_quan_ly == "":
+                    ma_quan_ly = input(
                         "Mã lễ tân không được để trống, nhập lại: "
                     ).strip()
                 else :
-                    ma_le_tan = input("Ma da ton tai! vui long nhap lai: ").strip()
+                    ma_quan_ly = input("Ma da ton tai! vui long nhap lai: ").strip()
 
 
             # Ca làm
@@ -245,33 +243,20 @@ class QuanLyHuman:
                     ).strip()
 
 
-            # Tên đăng nhập
-            ten_dang_nhap = input(
-                "Tên đăng nhập: "
-            ).strip()
-
-            while ten_dang_nhap == "":
-                ten_dang_nhap = input(
-                    "Tên đăng nhập không được để trống, nhập lại: "
-                ).strip()
-
-
             # Tạo đối tượng lễ tân
-            le_tan = LeTan(
+            Quanly = QuanLyKhachSan(
                 ho_ten,
                 ngay_sinh,
                 gioi_tinh,
                 so_dien_thoai,
-                ma_le_tan,
+                ma_quan_ly,
                 ca_lam,
                 luong,
-                chuc_vu,
-                ten_dang_nhap
+                chuc_vu
             )
 
             # Lưu vào dictionary
-            DSHuman[ma_le_tan] = le_tan
-
+            DSHuman[ma_quan_ly] = Quanly
 
         # ==================================================
         #                  KHÁCH HÀNG
@@ -451,7 +436,7 @@ class QuanLyHuman:
 
         # ================= LE TAN =================
 
-        if isinstance(doi_tuong, LeTan):
+        if isinstance(doi_tuong, QuanLyKhachSan):
 
             doi_tuong.ho_ten = input("Ho ten moi: ").strip()
             doi_tuong.ngay_sinh = input("Ngay sinh moi: ").strip()
@@ -466,7 +451,6 @@ class QuanLyHuman:
             doi_tuong.luong = float(luong)
 
             doi_tuong.chuc_vu = input("Chuc vu moi: ").strip()
-            doi_tuong.ten_dang_nhap = input("Ten dang nhap moi: ").strip()
 
         # ================= KHACH HANG =================
 
@@ -498,20 +482,26 @@ class QuanLyHuman:
             print("Danh sach rong!")
             return
 
-        so_le_tan = 0
+        so_quan_ly = 0
         so_khach_hang = 0
 
         for doi_tuong in DSHuman.values():
 
-            if isinstance(doi_tuong, LeTan):
-                so_le_tan += 1
+            if isinstance(doi_tuong, QuanLyKhachSan):
+                so_quan_ly += 1
 
             elif isinstance(doi_tuong, KhachHang):
                 so_khach_hang += 1
 
-        tong = so_le_tan + so_khach_hang
+        tong = so_quan_ly + so_khach_hang
 
         print("\n===== THONG KE =====")
         print(f"Tong so doi tuong : {tong}")
-        print(f"So le tan        : {so_le_tan}")
+        print(f"So quan ly        : {so_quan_ly}")
         print(f"So khach hang    : {so_khach_hang}")
+
+if __name__ == '__main__':
+    QL = QuanLyHuman()
+    QL.them()
+    QL.thongKe()
+    QL.inDanhSach()

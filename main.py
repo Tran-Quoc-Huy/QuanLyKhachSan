@@ -1,6 +1,6 @@
 from QuanLyDoiTuongKhachSan import *
 from QuanLyThietBiKhachSan import *
-from QuanLyTaiKhoanADMinKhachSan import *
+from QuanLyTaiKhoanKhachSan import *
 from QuanLyPhongKhachSan import *
 
 def menu():
@@ -13,8 +13,7 @@ def menu():
         print("1. Quan ly nguoi")
         print("2. Quan ly thiet bi")
         print("3. Quan ly phong")
-        print("4. Them Tai Khoan ADMin")
-        print("5. Doi Tai Khoan ADMin")
+        #
         print("0. Thoat")
 
         chon = input("Nhap lua chon: ")
@@ -100,9 +99,17 @@ def menu():
 
                 print("1. Them phong")
 
-                print("2. Dat phong")
+                print("2. Cap nhat phong")
 
-                print("3. In phieu dat phong")
+                print("3. Xoa phong")
+
+                print("3. Dat phong")
+
+                print("4. Hien thi")
+
+                print("5. Thong Ke")
+
+                print("5. In phieu dat phong")
 
                 print("0. Quay lai")
 
@@ -112,25 +119,22 @@ def menu():
 
                     PhongKhachSan.themPhong()
 
-
                 elif chose == "2":
-
-                    tenKhachHang = input("Nhap ten khach hang: ").strip()
-
-                    while tenKhachHang == "" or tenKhachHang.isdigit():
-                        if tenKhachHang == "":
-                            print("Khong the bo trong!")
-                        else:
-                            print("Ten khach hang khong the chi gom so!")
-
-                        tenKhachHang = input("Nhap lai ten khach hang: ").strip()
-
-                    phieu = PhieuDatPhong(tenKhachHang, 0)
-                    phieu.datPhong()
+                    PhongKhachSan.updatePhong()
 
 
                 elif chose == "3":
+                    PhieuDatPhong.datPhong()
 
+
+                elif chose == "4":
+
+                    PhongKhachSan.inDanhSachPhong()
+
+                elif chose == "5":
+                    PhongKhachSan.thongKe()
+
+                elif chose == "6":
                     PhieuDatPhong.inToanBoPhieuDatPhong()
 
 
@@ -143,11 +147,11 @@ def menu():
 
                     print("Lua chon khong hop le!")
 
-        elif chon == "4":
-            register()
-
-        elif chon == "5":
-            login()
+        # elif chon == "4":
+        #     register()
+        #
+        # elif chon == "5":
+        #     login()
 
         elif chon == "0":
             print("Tam biet!")
@@ -155,11 +159,12 @@ def menu():
 
 
 if __name__ == "__main__":
-
-    register()
-
-    if login():
-        menu()
-
-    else:
-        print("Khoi dong chuong trinh that bai!")
+    #
+    # register()
+    #
+    # if login():
+    #     menu()
+    #
+    # else:
+    #     print("Dang nhap that bai!")
+    menu()

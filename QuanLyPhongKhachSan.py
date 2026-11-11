@@ -1,4 +1,7 @@
+from operator import truediv
+
 from QuanLyDoiTuongKhachSan import *
+from QuanLyTaiKhoanKhachSan import *
 
 DSDatPhong = {}
 DSPhong = {}
@@ -144,13 +147,24 @@ class PhongKhachSan:
             else:
                 maPhong = input("Ma phong da ton tai! nhap lai: ").strip()
 
-        dienTich = float(input("Nhap dien tich: "))
-        while dienTich == "" or dienTich < 0:
+        while True:
+            dienTich = input("Nhap dien tich: ").strip()
 
             if dienTich == "":
-                dienTich = float(input("Khong duoc bo trong! nhap lai: "))
-            else :
-                dienTich = float(input("Phai lon hon 0! nhap lai: "))
+                print("Khong the bo trong!")
+                continue
+
+            try:
+                dienTich = float(dienTich)
+
+                if dienTich <= 0:
+                    print("Dien tich phai lon hon 0!")
+                else:
+                    break
+
+            except ValueError:
+                print("Dien tich khong hop le! Chi duoc nhap so.")
+
 
         soGiuong = int(input("Nhap so giuong: "))
         while soGiuong == "" or soGiuong < 0 or soGiuong > 10:
@@ -185,111 +199,211 @@ class PhongKhachSan:
         DSPhong[maPhong] = phong
         print("Them phong thanh cong!")
 
+
+
 class PhieuDatPhong:
     def __init__(self, khachHang, soNgayThue):
+        self.ma_phieu = ""
         self.khachHang = khachHang
         self.soNgayThue = soNgayThue
         self.phong = None
+        self.trang_thai = "Dang thue"
+
+    def tinhTien(self):
+        if self.phong is None:
+            return 0
+
+        return self.soNgayThue * self.phong.giaThueMotNgay
+
+    def __str__(self):
+        return (
+            f"Ma phieu: {self.ma_phieu}\n"
+            f"Khach hang: {self.khachHang.ho_ten}\n"
+            f"Ma khach hang: {self.khachHang.ma_khach_hang}\n"
+            f"CCCD: {self.khachHang.so_cccd}\n"
+            f"So dien thoai: {self.khachHang.so_dien_thoai}\n"
+            f"Phong: {self.phong.maPhong}\n"
+            f"So ngay thue: {self.soNgayThue}\n"
+            f"Don gia: {self.phong.giaThueMotNgay}\n"
+            f"Tong tien: {self.tinhTien()}\n"
+            f"Trang thai: {self.trang_thai}"
+        )
+
+
+    def tinhTien(self):
+        if self.phong is None:
+            return 0
+
+        return self.soNgayThue * self.phong.giaThueMotNgay
+
+    def __str__(self):
+        return (
+            f"Ma phieu: {self.ma_phieu}\n"
+            f"Khach hang: {self.khachHang.ho_ten}\n"
+            f"Ma khach hang: {self.khachHang.ma_khach_hang}\n"
+            f"CCCD: {self.khachHang.so_cccd}\n"
+            f"So dien thoai: {self.khachHang.so_dien_thoai}\n"
+            f"Phong: {self.phong.maPhong}\n"
+            f"So ngay thue: {self.soNgayThue}\n"
+            f"Don gia: {self.phong.giaThueMotNgay}\n"
+            f"Tong tien: {self.tinhTien()}\n"
+            f"Trang thai: {self.trang_thai}"
+        )
+
 
     @staticmethod
     def datPhong():
-        if not DSPhong:
-            print("Ds rong!")
+
+        # ==========================================
+        # 1. KIEM TRA DANG NHAP
+        # ==========================================
+
+        ten_tai_khoan = PHIEN_DANG_NHAP["ten_tai_khoan"]
+
+        # Neu chua dang nhap hoac khong phai tai khoan khach hang
+        if ten_tai_khoan not in DSKhachHangTheoTaiKhoan:
+
+            while True:
+                print("\n===== XAC THUC TAI KHOAN =====")
+                print("1. Dang nhap")
+                print("2. Dang ky tai khoan moi")
+                print("0. Thoat dat phong")
+
+                lua_chon = input("Lua chon cua ban: ").strip()
+
+                if lua_chon == "1":
+
+                    ten_tai_khoan = login_KhachHang()
+
+                    if ten_tai_khoan is not None:
+                        break
+
+                elif lua_chon == "2":
+
+                    register_KhachHang()
+
+                    ten_tai_khoan = PHIEN_DANG_NHAP["ten_tai_khoan"]
+
+                    if ten_tai_khoan is not None:
+                        break
+
+                elif lua_chon == "0":
+                    print("Da thoat chuc nang dat phong!")
+                    return
+
+                else:
+                    print("Lua chon khong hop le!")
+
+        # ==========================================
+        # 2. LAY THONG TIN KHACH HANG TU DSHuman
+        # ==========================================
+
+        ma_khach_hang = DSKhachHangTheoTaiKhoan[ten_tai_khoan]
+
+        khach_hang = DSHuman.get(ma_khach_hang)
+
+        if not isinstance(khach_hang, KhachHang):
+            print("Khong tim thay thong tin khach hang!")
             return
 
-        soPhongTrong = PhongKhachSan.thongKePhongTrong()
+        print("\n===== THONG TIN KHACH HANG =====")
+        print(f"Ho ten: {khach_hang.ho_ten}")
+        print(f"Ma khach hang: {khach_hang.ma_khach_hang}")
+        print(f"So CCCD: {khach_hang.so_cccd}")
+        print(f"So dien thoai: {khach_hang.so_dien_thoai}")
 
-        if soPhongTrong == 0:
+        # ==========================================
+        # 3. KIEM TRA PHONG TRONG
+        # ==========================================
+
+        if not DSPhong:
+            print("Danh sach phong rong!")
+            return
+
+        danh_sach_phong_trong = []
+
+        for phong in DSPhong.values():
+            if phong.trangThai == "Trong":
+                danh_sach_phong_trong.append(phong)
+
+        if not danh_sach_phong_trong:
             print("Khong con phong trong!")
             return
 
-        def nhapThongTinKhachHang():
+        print("\n===== DANH SACH PHONG TRONG =====")
 
-            cccd = input("Nhap CCCD khach hang: ").strip()
+        for phong in danh_sach_phong_trong:
+            print(phong)
 
-            while cccd == "" or not cccd.isdigit():
-                cccd = input("CCCD khong hop le! nhap lai: ").strip()
+        # ==========================================
+        # 4. CHON PHONG
+        # ==========================================
 
-            khach_hang = timKhachHangTheoCCCD(cccd)
+        maPhong = input("\nNhap ma phong muon dat: ").strip()
 
-            if khach_hang is not None:
-                print("Khach hang da ton tai!")
-                print(f"Ho ten: {khach_hang.ho_ten}")
+        while (
+                maPhong == ""
+                or maPhong not in DSPhong
+                or DSPhong[maPhong].trangThai != "Trong"
+        ):
 
-                return khach_hang
+            if maPhong == "":
+                print("Ma phong khong duoc de trong!")
 
-            print("Khach hang moi!")
+            elif maPhong not in DSPhong:
+                print("Ma phong khong ton tai!")
 
-            tenKhachHang = input("Nhap ten khach hang: ").strip()
+            else:
+                print("Phong da duoc thue!")
 
-            while tenKhachHang == "" or tenKhachHang.isdigit():
-                if tenKhachHang == "":
-                    print("Khong the bo trong!")
-                else:
-                    print("Ten khach hang khong the chi gom so!")
-
-                tenKhachHang = input("Nhap lai ten khach hang: ").strip()
-
-            ma_khach_hang = input("Nhap ma khach hang: ").strip()
-
-            while ma_khach_hang == "" or ma_khach_hang in DSHuman:
-                ma_khach_hang = input(
-                    "Ma khach hang khong hop le! nhap lai: "
-                ).strip()
-
-            ngay_sinh = input("Nhap ngay sinh: ").strip()
-            gioi_tinh = input("Nhap gioi tinh: ").strip()
-            so_dien_thoai = input("Nhap so dien thoai: ").strip()
-            dia_chi = input("Nhap dia chi: ").strip()
-            email = input("Nhap email: ").strip()
-            quoc_tich = input("Nhap quoc tich: ").strip()
-
-            khach_hang = KhachHang(
-                tenKhachHang,
-                ngay_sinh,
-                gioi_tinh,
-                so_dien_thoai,
-                ma_khach_hang,
-                dia_chi,
-                email,
-                cccd,
-                quoc_tich
-            )
-
-            DSHuman[ma_khach_hang] = khach_hang
-
-            print("Da them khach hang moi!")
-
-            return khach_hang
-
-        khach_hang = nhapThongTinKhachHang()
-
-        maPhong = input("Nhap ma phong muon dat: ").strip()
-
-        while maPhong not in DSPhong:
-            maPhong = input("Ma phong chua ton tai! nhap lai: ").strip()
+            maPhong = input("Vui long chon lai ma phong: ").strip()
 
         phong = DSPhong[maPhong]
 
-        while phong.trangThai == "daThue":
-            maPhong = input("Phong da duoc thue! Chon lai: ").strip()
+        # ==========================================
+        # 5. NHAP SO NGAY THUE
+        # ==========================================
 
-            while maPhong not in DSPhong:
-                maPhong = input("Ma phong chua ton tai! nhap lai: ").strip()
+        soNgayThue = input("Nhap so ngay thue: ").strip()
 
-            phong = DSPhong[maPhong]
+        while not soNgayThue.isdigit() or int(soNgayThue) <= 0:
+            soNgayThue = input(
+                "So ngay thue phai la so nguyen lon hon 0, nhap lai: "
+            ).strip()
 
-        soNgayThue = int(input("Nhap so ngay thue: "))
+        soNgayThue = int(soNgayThue)
+
+        # ==========================================
+        # 6. TAO PHIEU DAT PHONG
+        # ==========================================
+
+        dem = 1
+
+        ma_phieu = f"DP{dem:03d}"
+
+        while ma_phieu in DSDatPhong:
+            dem += 1
+            ma_phieu = f"DP{dem:03d}"
 
         phieu = PhieuDatPhong(khach_hang, soNgayThue)
+
+        phieu.ma_phieu = ma_phieu
         phieu.phong = phong
+        phieu.trang_thai = "Dang thue"
 
-        DSDatPhong[maPhong] = phieu
+        # Luu phieu theo ma phieu
+        DSDatPhong[ma_phieu] = phieu
 
+        # Cap nhat trang thai phong
         phong.trangThai = "Da thue"
 
-        print("Dat phong thanh cong!")
-        print(f"Tong tien: {phieu.tinhTien()}")
+        # ==========================================
+        # 7. XUAT KET QUA
+        # ==========================================
+
+        print("\n===== DAT PHONG THANH CONG =====")
+        print(f"Ma phieu: {ma_phieu}")
+        print(phieu)
 
     def tinhTien(self):
         if self.phong is None:

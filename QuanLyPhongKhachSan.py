@@ -3,6 +3,7 @@ from operator import truediv
 from QuanLyDoiTuongKhachSan import *
 from QuanLyTaiKhoanKhachSan import *
 
+
 DSDatPhong = {}
 DSPhong = {}
 
@@ -15,7 +16,7 @@ class PhongKhachSan:
         self.trangThai = trangThai
 
     def __str__(self):
-        return f"Ma phong: {self.maPhong} - Dien tich: {self.dienTich} - So giuong: {self.soGiuong} - Gia thue mot ngay: {self.giaThueMotNgay} - Trang thai: {self.trangThai}"
+        return f"Ma phong: {self.maPhong} - Dien tich: {self.dienTich} - So giuong: {self.soGiuong} - Gia thue mot ngay: {self.giaThueMotNgay:,.0f} - Trang thai: {self.trangThai}"
 
 
     @staticmethod
@@ -140,6 +141,46 @@ class PhongKhachSan:
 
     @staticmethod
     def themPhong():
+
+        # ==========================================
+        # 1. KIEM TRA DANG NHAP QUAN LY
+        # ==========================================
+
+        ten_tai_khoan = PHIEN_DANG_NHAP["ten_tai_khoan"]
+
+        # Neu chua dang nhap hoac khong phai tai khoan quan ly
+        if ten_tai_khoan not in DSQuanLyTheoTaiKhoan:
+
+            while True:
+                print("\n===== XAC THUC TAI KHOAN QUAN LY =====")
+                print("1. Dang nhap")
+                print("2. Dang ky tai khoan moi")
+                print("0. Thoat them phong")
+
+                lua_chon = input("Lua chon cua ban: ").strip()
+
+                if lua_chon == "1":
+
+                    ten_tai_khoan = login_QuanLy()
+
+                    if ten_tai_khoan is not None:
+                        break
+
+                elif lua_chon == "2":
+                    register_QuanLy()
+
+                    ten_tai_khoan = PHIEN_DANG_NHAP["ten_tai_khoan"]
+
+                    if ten_tai_khoan is not None:
+                        break
+
+                elif lua_chon == "0":
+                    print("Da thoat chuc nang them phong!")
+                    return
+
+                else:
+                    print("Lua chon khong hop le!")
+
         maPhong = input("Nhap ma phong: ").strip()
         while maPhong == "" or maPhong in DSPhong:
             if maPhong == "":

@@ -9,9 +9,12 @@ PHIEN_DANG_NHAP = {"ten_tai_khoan": None}
 # Lien ket tai khoan voi ma khach hang
 DSKhachHangTheoTaiKhoan = {}
 
+# Lien ket tai khoan voi ma quan ly
+DSQuanLyTheoTaiKhoan = {}
+
 # ========== REGISTER ==========
 def register_QuanLy():
-    ten_tk_ql = input("DANG KY TAI KHOANG QUAN LY! \nEnter your nick name: ").strip()
+    ten_tk_ql = input("DANG KY TAI KHOAN QUAN LY! \nEnter your nick name: ").strip()
     while ten_tk_ql == "":
         ten_tk_ql = input("Khong the bo trong ten tai khoan: ").strip()
 
@@ -151,7 +154,12 @@ def register_QuanLy():
 
     # Lưu vào dictionary
     DSHuman[ma_le_tan] = Quanly
+    # Lien ket tai khoan voi ma quan ly
+    DSQuanLyTheoTaiKhoan[ten_tk_ql] = ma_le_tan
 
+    PHIEN_DANG_NHAP["ten_tai_khoan"] = ten_tk_ql
+
+    print("DANG KY THANH CONG")
 
 def register_KhachHang():
     ten_tk_kh = input("DANG KY TAI KHOAN KHACH HANG!\nEnter your nickname: ").strip()
@@ -326,7 +334,7 @@ def register_KhachHang():
 
 def login_KhachHang():
     if not DSTaiKhoan:
-        print("Chua co tai khoang! dang ky va quay lai")
+        print("Chua co tai khoan! dang ky va quay lai")
         return
 
     so_lan_thu = 0
@@ -358,26 +366,38 @@ def login_KhachHang():
     print("Dang nhap that bai!")
     return None
 def login_QuanLy():
+    if not DSTaiKhoan:
+        print("Chua co tai khoan! dang ky va quay lai")
+        return
+
     so_lan_thu = 0
 
     print("DANG NHAP TAI KHOANG QUAN LY!")
 
     while so_lan_thu < 3:
-        nick_name = input("Enter your nick name: ")
-        mat_khau = input("Enter your password: ")
+        nick_name = input("Enter your nick name: ").strip()
+        mat_khau = input("Enter your password: ").strip()
 
-        if nick_name in DSTaiKhoan and DSTaiKhoan[nick_name] == mat_khau:
+        if (
+            nick_name in DSTaiKhoan
+            and DSTaiKhoan[nick_name] == mat_khau
+            and nick_name in DSQuanLyTheoTaiKhoan
+        ):
+
+            PHIEN_DANG_NHAP["ten_tai_khoan"] = nick_name
+
             print(f"Dang nhap thanh cong!\nXin chao quan ly: {nick_name}!")
-            return True
+
+            return nick_name
 
         else:
             so_lan_thu += 1
+
             if so_lan_thu != 3:
-                print(f"Sai thong tin dang nhap! so lan thu con: {3 - so_lan_thu}")
+                print(f"Sai thong tin dang nhap! So lan thu con: {3 - so_lan_thu}")
 
     print("Dang nhap that bai!")
-    return False
-
+    return None
 
 if __name__ == '__main__':
     QL = QuanLyHuman()

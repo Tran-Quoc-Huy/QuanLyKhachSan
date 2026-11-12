@@ -242,7 +242,6 @@ class QuanLyHuman:
                         "Chức vụ không được chứa số, nhập lại: "
                     ).strip()
 
-
             # Tạo đối tượng lễ tân
             Quanly = QuanLyKhachSan(
                 ho_ten,
@@ -258,6 +257,9 @@ class QuanLyHuman:
             # Lưu vào dictionary
             DSHuman[ma_quan_ly] = Quanly
 
+            # Tự động tạo tài khoản
+            from QuanLyTaiKhoanKhachSan import taoTaiKhoanQuanLy
+            taoTaiKhoanQuanLy(ma_quan_ly)
         # ==================================================
         #                  KHÁCH HÀNG
         # ==================================================
@@ -311,7 +313,7 @@ class QuanLyHuman:
                     so_cccd = input(
                         "CCCD không được để trống, nhập lại: "
                     ).strip()
-                elif so_cccd.isdigit():
+                elif not so_cccd.isdigit():
                     so_cccd = input(
                         "CCCD chỉ được nhập số, nhập lại: "
                     ).strip()
@@ -336,7 +338,6 @@ class QuanLyHuman:
                         "Quốc tịch không được chứa số, nhập lại: "
                     ).strip()
 
-
             # Tạo đối tượng khách hàng
             khach_hang = KhachHang(
                 ho_ten,
@@ -352,6 +353,10 @@ class QuanLyHuman:
 
             # Lưu vào dictionary
             DSHuman[ma_khach_hang] = khach_hang
+
+            # Tự động tạo tài khoản
+            from QuanLyTaiKhoanKhachSan import taoTaiKhoanKhachHang
+            taoTaiKhoanKhachHang(ma_khach_hang)
 
 
         print("Thêm thành công!")

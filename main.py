@@ -1,8 +1,10 @@
 
 # ========== IMPORT CAC MODULE ==========
-from QuanLyDoiTuongKhachSan import QuanLyHuman
-from QuanLyThietBiKhachSan import QuanLyThietBi
-from QuanLyPhongKhachSan import PhongKhachSan, PhieuDatPhong
+
+from QuanLyTaiKhoanKhachSan import *
+from QuanLyDoiTuongKhachSan import *
+from QuanLyPhongKhachSan import *
+from QuanLyThietBiKhachSan import *
 
 
 # ==================================================
@@ -180,9 +182,6 @@ def menu():
 # MAIN
 # ==================================================
 
-def main():
-    menu()
-
 
 if __name__ == "__main__":
-    main()
+    menu()

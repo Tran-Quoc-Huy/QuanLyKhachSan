@@ -1,7 +1,8 @@
 from QuanLyDoiTuongKhachSan import *
 
 # ==========KHOI TAO TU DIEN LUU THONG TIN TAI KHOAN========
-DSTaiKhoan = {}
+DSTaiKhoanQuanLy = {}
+DSTaiKhoanKhachHang = {}
 
 # Luu tai khoan dang dang nhap hien tai
 PHIEN_DANG_NHAP = {"ten_tai_khoan": None}
@@ -12,17 +13,64 @@ DSKhachHangTheoTaiKhoan = {}
 # Lien ket tai khoan voi ma quan ly
 DSQuanLyTheoTaiKhoan = {}
 
+
+def taoTaiKhoanKhachHang(ma_khach_hang):
+    print("\n===== TAO TAI KHOAN KHACH HANG =====")
+
+    ten_tk = input("Ten tai khoan: ").strip()
+
+    while ten_tk == "" or ten_tk in DSTaiKhoanKhachHang:
+        if ten_tk == "":
+            ten_tk = input("Khong duoc de trong: ").strip()
+        else:
+            ten_tk = input("Tai khoan da ton tai, nhap lai: ").strip()
+
+    mat_khau = input("Mat khau: ").strip()
+
+    while mat_khau == "":
+        mat_khau = input("Mat khau khong duoc de trong: ").strip()
+
+    DSTaiKhoanKhachHang[ten_tk] = mat_khau
+    DSKhachHangTheoTaiKhoan[ten_tk] = ma_khach_hang
+
+    print("Tao tai khoan khach hang thanh cong!")
+
+
+def taoTaiKhoanQuanLy(ma_le_tan):
+    print("\n===== TAO TAI KHOAN QUAN LY =====")
+
+    ten_tk = input("Ten tai khoan: ").strip()
+
+    while ten_tk == "" or ten_tk in DSTaiKhoanQuanLy:
+        if ten_tk == "":
+            ten_tk = input("Khong duoc de trong: ").strip()
+        else:
+            ten_tk = input("Tai khoan da ton tai, nhap lai: ").strip()
+
+    mat_khau = input("Mat khau: ").strip()
+
+    while mat_khau == "":
+        mat_khau = input("Mat khau khong duoc de trong: ").strip()
+
+    DSTaiKhoanQuanLy[ten_tk] = mat_khau
+    DSQuanLyTheoTaiKhoan[ten_tk] = ma_le_tan
+
+    print("Tao tai khoan quan ly thanh cong!")
+
 # ========== REGISTER ==========
 def register_QuanLy():
     ten_tk_ql = input("DANG KY TAI KHOAN QUAN LY! \nEnter your nick name: ").strip()
-    while ten_tk_ql == "":
-        ten_tk_ql = input("Khong the bo trong ten tai khoan: ").strip()
+    while ten_tk_ql == "" or ten_tk_ql in DSTaiKhoanQuanLy:
+        if ten_tk_ql == "":
+            ten_tk_ql = input("Khong the bo trong ten tai khoan: ").strip()
+        else:
+            ten_tk_ql = input("Tai khoan quan ly da ton tai, nhap lai: ").strip()
 
     mat_khau_tk_ql = input("Enter your password: ").strip()
     while mat_khau_tk_ql == "":
         mat_khau_tk_ql = input("Khong the bo trong mat khau: ").strip()
 
-    DSTaiKhoan[ten_tk_ql] = mat_khau_tk_ql
+    DSTaiKhoanQuanLy[ten_tk_ql] = mat_khau_tk_ql
 
     ho_ten = input("Họ tên: ").strip()
 
@@ -164,7 +212,7 @@ def register_QuanLy():
 def register_KhachHang():
     ten_tk_kh = input("DANG KY TAI KHOAN KHACH HANG!\nEnter your nickname: ").strip()
 
-    while ten_tk_kh == "" or ten_tk_kh in DSTaiKhoan:
+    while ten_tk_kh == "" or ten_tk_kh in DSTaiKhoanKhachHang:
         if ten_tk_kh == "":
             ten_tk_kh = input("Khong the bo trong ten tai khoan: ").strip()
         else:
@@ -320,7 +368,7 @@ def register_KhachHang():
     DSHuman[ma_khach_hang] = khach_hang
 
     # 2. Lưu tài khoản và mật khẩu
-    DSTaiKhoan[ten_tk_kh] = mat_khau_tk_kh
+    DSTaiKhoanKhachHang[ten_tk_kh] = mat_khau_tk_kh
 
     # 3. Liên kết tài khoản với mã khách hàng
     DSKhachHangTheoTaiKhoan[ten_tk_kh] = ma_khach_hang
@@ -333,8 +381,8 @@ def register_KhachHang():
 # ========== LOGIN ==========
 
 def login_KhachHang():
-    if not DSTaiKhoan:
-        print("Chua co tai khoan! dang ky va quay lai")
+    if not DSTaiKhoanKhachHang:
+        print("Chua co tai khoan khach hang! dang ky va quay lai")
         return
 
     so_lan_thu = 0
@@ -345,7 +393,7 @@ def login_KhachHang():
         nick_name = input("Enter your nick name: ").strip()
         mat_khau = input("Enter your password: ").strip()
 
-        if nick_name in DSTaiKhoan and DSTaiKhoan[nick_name] == mat_khau:
+        if nick_name in DSTaiKhoanKhachHang and DSTaiKhoanKhachHang[nick_name] == mat_khau:
 
             if nick_name not in DSKhachHangTheoTaiKhoan:
                 print("Tai khoan chua duoc lien ket voi khach hang!")
@@ -366,8 +414,8 @@ def login_KhachHang():
     print("Dang nhap that bai!")
     return None
 def login_QuanLy():
-    if not DSTaiKhoan:
-        print("Chua co tai khoan! dang ky va quay lai")
+    if not DSTaiKhoanQuanLy:
+        print("Chua co tai khoan quan ly! dang ky va quay lai")
         return
 
     so_lan_thu = 0
@@ -379,8 +427,8 @@ def login_QuanLy():
         mat_khau = input("Enter your password: ").strip()
 
         if (
-            nick_name in DSTaiKhoan
-            and DSTaiKhoan[nick_name] == mat_khau
+            nick_name in DSTaiKhoanQuanLy
+            and DSTaiKhoanQuanLy[nick_name] == mat_khau
             and nick_name in DSQuanLyTheoTaiKhoan
         ):
 

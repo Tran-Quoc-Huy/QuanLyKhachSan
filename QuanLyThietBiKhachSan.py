@@ -1,3 +1,4 @@
+from QuanLyPhongKhachSan import *
 # ==========================================================
 #              CLASS THIẾT BỊ
 # ==========================================================
@@ -37,20 +38,6 @@ class QuanLyThietBi:
     def __init__(self):
         self.ds_thiet_bi = {}
 
-        # Danh sách kho/phòng hiện có
-        self.ds_phong = [
-            "Kho",
-            "Phòng 101",
-            "Phòng 102",
-            "Phòng 103",
-            "Phòng 104",
-            "Phòng 105",
-            "Phòng 106",
-            "Phòng 107",
-            "Phòng 108",
-            "Phòng 109"
-        ]
-
     # ======================================================
     # CHỌN PHÒNG QUẢN LÝ
     # ======================================================
@@ -58,8 +45,15 @@ class QuanLyThietBi:
     def chonPhongQuanLy(self, phong_hien_tai=None):
         print("\n===== CHỌN PHÒNG QUẢN LÝ =====")
 
-        for i, phong in enumerate(self.ds_phong, 1):
-            print(f"{i}. {phong}")
+        if not DSPhong:
+            print("Danh sach phong rong!")
+            return False
+
+        danh_sach_phong = list(DSPhong.keys())
+
+        print("DS phong hien co:")
+        for i, ma_phong in enumerate(danh_sach_phong, 1):
+            print(f"{i}. {ma_phong}")
 
         if phong_hien_tai is not None:
             print("0. Giữ nguyên phòng hiện tại")
@@ -70,8 +64,8 @@ class QuanLyThietBi:
             if phong_hien_tai is not None and chon == "0":
                 return phong_hien_tai
 
-            if chon.isdigit() and 1 <= int(chon) <= len(self.ds_phong):
-                return self.ds_phong[int(chon) - 1]
+            if chon.isdigit() and 1 <= int(chon) <= len(danh_sach_phong):
+                return danh_sach_phong[int(chon) - 1]
 
             print("Lựa chọn không hợp lệ! Vui lòng chọn lại.")
 
@@ -131,6 +125,10 @@ class QuanLyThietBi:
 
         # Chọn phòng quản lý trước khi nhập thiết bị
         phong_quan_ly = self.chonPhongQuanLy()
+
+        if phong_quan_ly is False:
+            print("DS phong rong!")
+            return
 
         ma = input("Nhập mã thiết bị: ").strip()
         while not ma.isdigit():

@@ -16,7 +16,7 @@ class PhongKhachSan:
         self.trangThai = trangThai
 
     def __str__(self):
-        return f"Ma phong: {self.maPhong} - Dien tich: {self.dienTich} - So giuong: {self.soGiuong} - Gia thue mot ngay: {self.giaThueMotNgay:,.0f} - Trang thai: {self.trangThai}"
+        return f"Ma phong: {self.maPhong} - Dien tich: {self.dienTich:,.0f} m^2 - So giuong: {self.soGiuong} - Gia thue mot ngay: {self.giaThueMotNgay:,.0f} VND - Trang thai: {self.trangThai}"
 
 
     @staticmethod
